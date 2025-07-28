@@ -15,6 +15,10 @@ else
     exit 1
 fi
 
+echo "file v4l2-subdev.c +p" > /sys/kernel/debug/dynamic_debug/control
+echo "file mc-entity.c +p" > /sys/kernel/debug/dynamic_debug/control
+echo "file ipu6-isys-csi2.c +p" > /sys/kernel/debug/dynamic_debug/control
+
 ascii_base_value=$(printf "%d" "'a")
 SEN1="isx031 8-001a"
 SER1="max96717 6-0040"
@@ -59,7 +63,7 @@ echo "CAP1:" $CAP1
 # media-ctl -l "\"${SER4}\":2 -> \"${DES2}\":5[1]"
 # media-ctl -l "\"${DES1}\":0 -> \"${CSI1}\":0[1]"
 # media-ctl -l "\"${DES2}\":0 -> \"${CSI2}\":0[1]"
-# media-ctl -l "\"${CSI1}\":1 -> \"${CAP1}\":0[1]"
+media-ctl -l "\"${CSI1}\":1 -> \"${CAP1}\":0[1]"
 # media-ctl -l "\"${CSI1}\":2 -> \"${CAP2}\":0[1]"
 # media-ctl -l "\"${CSI2}\":1 -> \"${CAP3}\":0[1]"
 # media-ctl -l "\"${CSI2}\":2 -> \"${CAP4}\":0[1]"
@@ -75,10 +79,10 @@ media-ctl -V "\"${SEN1}\":0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SEN2}\":0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SEN3}\":0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SEN4}\":0 [fmt:${FMT1}/${RESOLUTION}]"
-media-ctl -V "\"${SER1}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
+media-ctl -V "\"${SER1}\":0/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 
 # media-ctl -V "\"${SER1}\":2/0 [fmt:${FMT1}/${RESOLUTION}]"
-media-ctl -V "\"${SER1}\":1/0 [fmt:${FMT1}/${RESOLUTION}]"
+media-ctl -V "\"${SER1}\":1/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 
 # media-ctl -V "\"${SER2}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SER2}\":2/1 [fmt:${FMT1}/${RESOLUTION}]"
@@ -88,9 +92,9 @@ media-ctl -V "\"${SER1}\":1/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SER4}\":2/1 [fmt:${FMT1}/${RESOLUTION}]"
 
 # media-ctl -V "\"${DES1}\":4/0 [fmt:${FMT1}/${RESOLUTION}]"
-media-ctl -V "\"${DES1}\":2/0 [fmt:${FMT1}/${RESOLUTION}]"
+media-ctl -V "\"${DES1}\":2/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 
-media-ctl -V "\"${DES1}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
+media-ctl -V "\"${DES1}\":0/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 # media-ctl -V "\"${DES1}\":5/1 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${DES1}\":0/1 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${DES2}\":4/0 [fmt:${FMT1}/${RESOLUTION}]"
@@ -99,14 +103,13 @@ media-ctl -V "\"${DES1}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${DES2}\":0/1 [fmt:${FMT1}/${RESOLUTION}]"
 media-ctl -V "\"${CSI1}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
 media-ctl -V "\"${CSI1}\":1/0 [fmt:${FMT1}/${RESOLUTION}]"
-media-ctl -V "\"${CSI1}\":0/1 [fmt:${FMT1}/${RESOLUTION}]"
+# media-ctl -V "\"${CSI1}\":0/1 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${CSI1}\":2/1 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${CSI2}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${CSI2}\":1/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${CSI2}\":0/1 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${CSI2}\":2/1 [fmt:${FMT1}/${RESOLUTION}]"
 
-# Enable debug on capture device
 echo 0xff > /sys/class/video4linux/$(basename $CAPTURE_DEV1)/dev_debug
 yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV1}"
 # yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV2}"
