@@ -1,4 +1,7 @@
 set -x
+DES1="max9296a 1-0048"
+SER1="max96717 7-0040"
+SEN1="isx031 8-001a"
 FRAME_NUM=50
 RESOLUTION=1920x1536
 FMT=UYVY
@@ -16,13 +19,10 @@ else
 fi
 
 echo "file v4l2-subdev.c +p" > /sys/kernel/debug/dynamic_debug/control
-echo "file mc-entity.c +p" > /sys/kernel/debug/dynamic_debug/control
-echo "file ipu6-isys-csi2.c +p" > /sys/kernel/debug/dynamic_debug/control
+#echo "file mc-entity.c +p" > /sys/kernel/debug/dynamic_debug/control
+#echo "file ipu6-isys-csi2.c +p" > /sys/kernel/debug/dynamic_debug/control
 
 ascii_base_value=$(printf "%d" "'a")
-SEN1="isx031 8-001a"
-SER1="max96717 6-0040"
-DES1="max9296a 1-0048"
 # SEN1="isx031 $(printf "\\$(printf '%03o' "$((ascii_base_value))")")-${PRT1}"
 # SEN2="isx031 $(printf "\\$(printf '%03o' "$((ascii_base_value + 1))")")-${PRT1}"
 # SEN3="isx031 $(printf "\\$(printf '%03o' "$((ascii_base_value))")")-${PRT2}"
@@ -115,7 +115,9 @@ yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV1}"
 # yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV2}"
 # yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV3}"
 # yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV4}"
-yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-a.bin -f $FMT ${CAPTURE_DEV1}
+
+# yavta --data-prefix -c50 -n5 -I -s1920x1536 --file=./dump/frame-#-gsml-a.bin -f UYVY /dev/video0
+ yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-a.bin -f $FMT ${CAPTURE_DEV1}
 # yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-b.bin -f $FMT ${CAPTURE_DEV2} &
 # yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-c.bin -f $FMT ${CAPTURE_DEV3} &
 # yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-d.bin -f $FMT ${CAPTURE_DEV4} &
