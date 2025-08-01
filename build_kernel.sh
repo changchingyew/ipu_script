@@ -20,11 +20,11 @@ gcc --version
 echo "*********************************"
 
 # CC="ccache gcc"
-
-#rm -rf ${dirname_in_trunk}/kernel/*.tar.bz2 ${dirname_in_trunk}/*.deb ${dirname_in_trunk}/*.buildinfo ${dirname_in_trunk}/*.changes
-#rm -rf ${dirname_in_trunk}/out
-#make mrproper
-#make kernelversion
-# echo "" | make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL} oldconfig
-make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL}
-# make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL} bindeb-pkg
+# make mrproper
+# make kernelversion
+# make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL} oldconfig
+if [ "$2" == "deb" ]; then
+    make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL} bindeb-pkg
+else
+    make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL}
+fi
