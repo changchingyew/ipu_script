@@ -94,11 +94,7 @@ yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV1}"
 yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV2}"
 yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV3}"
 yavta -f$FMT -s${RESOLUTION} --no-query "${CAPTURE_DEV4}"
-yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --
-file=./dump/frame-#-gsml-a.bin -f $FMT ${CAPTURE_DEV1} &
-yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --
-file=./dump/frame-#-gsml-b.bin -f $FMT ${CAPTURE_DEV2} &
-yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --
-file=./dump/frame-#-gsml-c.bin -f $FMT ${CAPTURE_DEV3} &
-yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --
-file=./dump/frame-#-gsml-d.bin -f $FMT ${CAPTURE_DEV4} &
+yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-a.bin -f $FMT ${CAPTURE_DEV1} &
+yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-b.bin -f $FMT ${CAPTURE_DEV2} &
+yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-c.bin -f $FMT ${CAPTURE_DEV3} &
+yavta --data-prefix -c${FRAME_NUM} -n5 -I -s${RESOLUTION} --file=./dump/frame-#-gsml-d.bin -f $FMT ${CAPTURE_DEV4} &
