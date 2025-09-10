@@ -3,12 +3,12 @@ set -x
 
 dirname_in_trunk=${PWD}/camera
 
-if [ "$1" == "lts" ]; then
-        echo "Using LTS kernel build"
-        cd ${dirname_in_trunk}/kernel-lts/
-        KERNEL_BUILD_LABEL="-vtg-gmsl"
+if [ -n "$1" ]; then
+    echo "Build kernel-$1"
+    cd ${dirname_in_trunk}/kernel-$1/
+    KERNEL_BUILD_LABEL="-maxim-serdes-$1"
 else
-    echo "Using non-LTS kernel build"
+    echo "Standard kernel build"
     cd ${dirname_in_trunk}/kernel/
     KERNEL_BUILD_LABEL="-maxim-serdes"
 fi
@@ -19,7 +19,7 @@ echo "*********************************"
 gcc --version
 echo "*********************************"
 
-# CC="ccache gcc"
+CC="ccache gcc"
 # make mrproper
 # make kernelversion
 # make -j$(nproc) LOCALVERSION=${KERNEL_BUILD_LABEL} oldconfig
