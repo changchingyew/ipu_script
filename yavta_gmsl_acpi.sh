@@ -1,7 +1,4 @@
 set -x
-DES1="max9296a 1-0048"
-SER1="max96717 7-0040"
-SEN1="isx031 8-001a"
 FRAME_NUM=50
 RESOLUTION=1920x1536
 FMT=UYVY
@@ -13,12 +10,18 @@ if [ "$1" = "ipu6epmtl" ]; then
 elif [ "$1" = "ipu6ep" ]; then
     PRT1=1
     PRT2=2
+elif [ "$1" = "ipu7ep" ]; then
+    PRT1=2
+    DES1="max96724 2-0027"
+    SER1="max96717 2-0040"
+    SEN1="isx031 2-001a"
+    IPU="Intel IPU7"
 else
     echo "invalid platform!"
     exit 1
 fi
 
-echo "file v4l2-subdev.c +p" > /sys/kernel/debug/dynamic_debug/control
+#echo "file v4l2-subdev.c +p" > /sys/kernel/debug/dynamic_debug/control
 #echo "file mc-entity.c +p" > /sys/kernel/debug/dynamic_debug/control
 #echo "file ipu6-isys-csi2.c +p" > /sys/kernel/debug/dynamic_debug/control
 
@@ -33,12 +36,12 @@ ascii_base_value=$(printf "%d" "'a")
 # SER4="max92717 $(printf "\\$(printf '%03o' "$((ascii_base_value + 1))")")-${PRT2}"
 # DES1="max9296a $(printf "\\$(printf '%03o' "$((ascii_base_value + PRT1))")")"
 # DES2="max9296a $(printf "\\$(printf '%03o' "$((ascii_base_value + PRT2))")")"
-CSI1="Intel IPU6 CSI2 ${PRT1}"
-# CSI2="Intel IPU6 CSI2 ${PRT2}"
-CAP1="Intel IPU6 ISYS Capture $((PRT1 * 8))"
-# CAP2="Intel IPU6 ISYS Capture $((PRT1 * 8 + 1))"
-# CAP3="Intel IPU6 ISYS Capture $((PRT2 * 8))"
-# CAP4="Intel IPU6 ISYS Capture $((PRT2 * 8 + 1))"
+CSI1="${IPU} CSI2 ${PRT1}"
+# CSI2="${IPU} CSI2 ${PRT2}"
+CAP1="${IPU} ISYS Capture $((PRT1 * 8))"
+# CAP2="${IPU} ISYS Capture $((PRT1 * 8 + 1))"
+# CAP3="${IPU} ISYS Capture $((PRT2 * 8))"
+# CAP4="${IPU} ISYS Capture $((PRT2 * 8 + 1))"
 CAPTURE_DEV1=$(media-ctl -e "${CAP1}")
 # CAPTURE_DEV2=$(media-ctl -e "${CAP2}")
 # CAPTURE_DEV3=$(media-ctl -e "${CAP3}")
@@ -91,8 +94,8 @@ media-ctl -V "\"${SER1}\":1/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 # media-ctl -V "\"${SER4}\":0/0 [fmt:${FMT1}/${RESOLUTION}]"
 # media-ctl -V "\"${SER4}\":2/1 [fmt:${FMT1}/${RESOLUTION}]"
 
-# media-ctl -V "\"${DES1}\":4/0 [fmt:${FMT1}/${RESOLUTION}]"
-media-ctl -V "\"${DES1}\":2/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
+media-ctl -V "\"${DES1}\":4/0 [fmt:${FMT1}/${RESOLUTION}]"
+# media-ctl -V "\"${DES1}\":2/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 
 media-ctl -V "\"${DES1}\":0/0 [fmt:${FMT1}/${RESOLUTION} field:none]"
 # media-ctl -V "\"${DES1}\":5/1 [fmt:${FMT1}/${RESOLUTION}]"
