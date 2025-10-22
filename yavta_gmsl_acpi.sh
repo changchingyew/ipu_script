@@ -11,8 +11,13 @@ elif [ "$1" = "ipu6ep" ]; then
     PRT1=1
     PRT2=2
 elif [ "$1" = "ipu7" ]; then
-    PRT1=2
-    DES1="max96724 2-0027"
+    # PRT1=2
+    PRT1=0
+    DES1="max96724 1-0027"
+    # SER_NR=32
+    # SEN_NR=48
+    SER_NR=28
+    SEN_NR=44
     IPU="Intel IPU7"
 else
     echo "invalid platform!"
@@ -25,8 +30,8 @@ CSI1="${IPU} CSI2 ${PRT1}"
 for i in {0..3}; do
     CAP[$i]="${IPU} ISYS Capture $((PRT1 * 8 + i))"
     CAPTURE_DEV[$i]=$(media-ctl -e "${CAP[$i]}")
-    SER[$i]="max92717 $((32 + i))-0040"
-    SEN[$i]="isx031 $((48 + i))-001a"
+    SER[$i]="max96717 $((SER_NR + i))-0040"
+    SEN[$i]="isx031 $((SEN_NR + i))-001a"
     echo "CAP[$i]:" ${CAP[$i]} "CAPTURE_DEV[$i]:" ${CAPTURE_DEV[$i]} "SER[$i]:" ${SER[$i]} "SEN[$i]:" ${SEN[$i]}
 done
 
