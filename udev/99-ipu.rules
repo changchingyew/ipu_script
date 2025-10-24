@@ -1,0 +1,1 @@
+SUBSYSTEMS=="i2c", SUBSYSTEM=="video4linux",  PROGRAM="/etc/udev/rules.d/ipu_path.sh", SYMLINK+="v4l/ipu/%c"
