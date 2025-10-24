@@ -1,0 +1,1 @@
+DRIVERS=="max9*", SUBSYSTEM=="video4linux",  PROGRAM="/etc/udev/rules.d/gmsl_path.sh", SYMLINK+="v4l/gmsl/%c"
